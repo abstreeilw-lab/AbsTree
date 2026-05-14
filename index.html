@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AbsTree</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header>
+
+    <div class="logo">
+      <span class="tree-icon">🌸</span>
+
+      <div>
+        <h1>AbsTree</h1>
+        <p>Transformando abstração em visualização</p>
+      </div>
+    </div>
+
+    <!-- ABAS -->
+    <nav class="tabs">
+
+      <button 
+        id="tab-bst"
+        class="active"
+        onclick="selectTab('bst')">
+        BST
+      </button>
+
+      <button 
+        id="tab-avl"
+        onclick="selectTab('avl')">
+        AVL
+      </button>
+
+      <button 
+        id="tab-rb"
+        onclick="selectTab('rb')">
+        Rubro-Negra
+      </button>
+
+      <button
+        id="tab-code"
+        onclick="toggleCodePanel()">
+        Código C
+      </button>
+
+    </nav>
+
+  </header>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <div class="left-panel">
+
+      <!-- ÁRVORE -->
+      <div class="card tree-card">
+
+        <h2 id="treeTitle">
+          Árvore Binária de Busca
+        </h2>
+
+        <svg id="tree" width="520" height="360"></svg>
+
+      </div>
+
+      <!-- TERMINAL -->
+      <div class="card terminal-card">
+
+        <h2>Console de Execução</h2>
+
+        <div id="terminal"></div>
+
+      </div>
+
+    </div>
+
+    <!-- CÓDIGO EM C -->
+    <div class="card code-card hidden" id="codePanel">
+
+      <div class="code-header">
+
+        <h2>Código em C</h2>
+
+        <span id="codeStatus">
+          Selecionado: BST
+        </span>
+
+      </div>
+
+      <div class="code-block" id="codeContent">
+
+        <div class="code-line">
+#include &lt;stdio.h&gt;
+        </div>
+
+        <div class="code-line">
+#include &lt;stdlib.h&gt;
+        </div>
+
+        <div class="code-line ellipsis">
+...
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CONTROLES -->
+  <div class="controls">
+
+    <label>Valor:</label>
+
+    <input
+      type="number"
+      id="value"
+      placeholder="Digite um valor"
+    >
+
+    <button
+      class="green"
+      onclick="insertValue()">
+      Inserir
+    </button>
+
+    <button
+      class="red"
+      onclick="removeValue()">
+      Remover
+    </button>
+
+    <button onclick="runTraversal('pre')">
+      Pré
+    </button>
+
+    <button onclick="runTraversal('in')">
+      Em
+    </button>
+
+    <button onclick="runTraversal('post')">
+      Pós
+    </button>
+
+  </div>
+
+</div>
+
+<!-- SCRIPT -->
+<script src="script.js"></script>
+
+<script>
+
+function selectTab(type){
+
+  // remove active
+  document.querySelectorAll(".tabs button").forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  // ativa aba selecionada
+  document.getElementById("tab-" + type).classList.add("active");
+
+  // muda árvore
+  setTreeType(type);
+
+  // títulos
+  const titles = {
+    bst: "Árvore Binária de Busca",
+    avl: "Árvore AVL",
+    rb: "Árvore Rubro-Negra"
+  };
+
+  document.getElementById("treeTitle").innerText = titles[type];
+
+  // atualiza código
+  currentCodeType = type;
+
+  if (typeof setCodeForType === "function") {
+    setCodeForType(type);
+  }
+}
+
+// MOSTRAR / ESCONDER CÓDIGO
+function toggleCodePanel(){
+
+  const panel = document.getElementById("codePanel");
+
+  panel.classList.toggle("hidden");
+
+  const button = document.getElementById("tab-code");
+
+  button.classList.toggle("active");
+}
+
+// inicia BST
+selectTab("bst");
+
+</script>
+
+</body>
+</html>
